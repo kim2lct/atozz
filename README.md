@@ -10,7 +10,7 @@ download and try it. :)
 - run __php artisan key:generate && php artisan migrate__ 
 - run __php artisan serve --host="{if using ip} --port="{if want setup port}"__
 - *optional for cronjob (open *crontab -e* write this *( * * * * * cd __your_path_to_app_directory && php artisan scheduler:run >> /dev/null 2>&1)* then save it 
-
+- run manually scheduler from terminal __php artisan schedule:work__
 
 
 
