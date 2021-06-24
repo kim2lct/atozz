@@ -9,7 +9,7 @@ use Str;
 
 class OrderRepository implements RepositoryInterface{
 	public function all(){
-		$orders = Order::where('user_id',auth()->user()->id)->orderByDesc('created_at');
+		$orders = Order::where('user_id',auth()->user()->id)->withTrashed()->orderByDesc('created_at');
         if(request('no_order')){          	      
             $orders->where('no_order','like','%'.request('no_order').'%');
         }
