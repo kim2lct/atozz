@@ -2,6 +2,9 @@
 @section('title','Create Order Success')
 @section('content')
 <form action="{{route('order.index')}}" method="POST">
+	@php
+		$json = json_decode($data['data']);		
+	@endphp
 	@csrf	
 	@include('member.profile')
 	<div class="orderPage">
@@ -14,16 +17,16 @@
 	</div>
 	<div class="d-form-clean flex justify-between">
 		<label for="total"><strong>Total</strong></label>	
-		<input type="total" name="total" value="{{$data['data']->value??$data['data']->price}}" readonly="">			
+		<input type="total" name="total" value="{{$json->totalInRupiah}}" readonly="">		
 	</div>
 	<br>
 	<div class="d-form my-10">
 	@if($data['type'] <> 'product')	
-		Your mobile phone {{$data['data']->mobile_number}} will received {{$data['data']->value}}		
+		Your mobile phone {{$json->data}} will received {{$json->priceInRupiah}}		
 	@else
-		{{$data['data']->product}} that costs {{$data['data']->price}} will be shipped to:
+		{{$json->data}} that costs {{$json->priceInRupiah}} will be shipped to:
 		<div class="shipped mt-1">
-			{{$data['data']->shipping_address}}
+			{{$json->address}}
 		</div>
 		<div class="only mt-1">
 			only after you pay
@@ -32,7 +35,7 @@
 	</div>
 	<div class="d-form  mt-1">
 		<input type="submit">	
-		<input type="hidden" name="{{$data['type']}}" value="{{$data['data']->id}}"/>			
+		<input type="hidden" name="{{$data['type']}}" value="{{$json->id}}"/>			
 	</div>
 	</div>
 	

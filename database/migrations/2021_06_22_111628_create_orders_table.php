@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('status')->default('new');
             $table->string('shipping_code')->nullable(); 
             $table->foreignId('user_id');           
+            $table->integer('price');           
             $table->softDeletes();
             $table->timestamps();
         });

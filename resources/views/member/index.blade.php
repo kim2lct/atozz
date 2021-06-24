@@ -22,7 +22,7 @@
 		@endphp
 		<div class="show flex justify-between aligns-center">	
 			<div class="p-1" style="width: 66.6%;">
-				<div class="mb-1"><ul class="none_strip flex justify-between text-default"><li>{{$order->getOrder($order->no_order)}}</li><li>{{$order->orderable->price??$order->orderable->value}}</li></ul></div>
+				<div class="mb-1"><ul class="none_strip flex justify-between text-default"><li>{{$order->getOrder($order->no_order)}}</li><li>{{(new \App\Models\Order)->convertRp($order->price)}}</li></ul></div>
 				<div>
 					<strong>{{$product}}</strong>
 				</div>

@@ -54,19 +54,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $data = session()->get('orderTable');        
+        $data = session()->get('orderTable');
+
         if(!$data){
             return redirect('member-area');
-        }
+        }   
+        
+        $json = json_decode($data['data']);     
         
         $no = str_replace(' ', '', $data['no_order']);
-        $product = ($data['type'] == 'product')?Product::find($data['data']->id):TopUp::find($data['data']->id);
-
+        $product = ($data['type'] == 'product')?Product::find($json->id):TopUp::find($json->id);
         try {
             DB::beginTransaction();
             $order = $product->orders()->create([
                 'no_order'=>$no,
                 'status'=>'new',
+                'price'=>$json->total,
                 'user_id'=>auth()->user()->id
             ]);
             

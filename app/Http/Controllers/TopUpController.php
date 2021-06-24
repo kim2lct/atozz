@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\TopUp;
 use App\Models\Order;
+use App\Repository\OrderRepository;
 use DB;
 
 class TopUpController extends Controller
@@ -59,24 +60,22 @@ class TopUpController extends Controller
             ]);
         }
 
-        $value = intval($request->value+=$request->value*.5);
-
         try {
             DB::beginTransaction();
             $product = TopUp::create([
             'mobile_number'=>$request->mobile_phone,
-            'value'=>$value,            
+            'value'=>$request->value,            
             'user_id'=>auth()->user()->id
         ]);   
         if($product){
             DB::commit();
-            $request->session()->put('orderTable',['type'=>'topup','no_order'=>(new Order)->generate(),'data'=>$product]);
+            $request->session()->put('orderTable',['type'=>'topup','no_order'=>(new Order)->generate(),'data'=>(new Order)->mappingData($product)]);
             return redirect('member-area/success')->with(['success'=>'Success!']);                
         } 
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withInput()->withErrors([
-            'er' => 'Terjadi Kesalahan Sistem',
+            'er' => $e->getMessage(),
         ]);           
         }
         

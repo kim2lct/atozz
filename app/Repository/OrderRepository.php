@@ -55,8 +55,7 @@ class OrderRepository implements RepositoryInterface{
 
 	public function findUnpaid(){
 		return Order::where('status','new')->get();
-	}
-	
+	}	
 
 
 }

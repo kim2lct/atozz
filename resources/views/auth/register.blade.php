@@ -1,5 +1,5 @@
 @extends('welcome')
-@section('title','Regsiter Page')
+@section('title','Register Page')
 @section('content')
 <form action="{{route('register.index')}}" method="POST">
     @csrf    

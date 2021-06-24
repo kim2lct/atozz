@@ -53,9 +53,10 @@ class ProductController extends Controller
             'price'=>$request->price,
             'user_id'=>auth()->user()->id
         ]);   
+            
         if($product){
             DB::commit();
-            $request->session()->put('orderTable',['type'=>'product','no_order'=>(new Order)->generate(),'data'=>$product]);
+            $request->session()->put('orderTable',['type'=>'product','no_order'=>(new Order)->generate(),'data'=>(new Order)->mappingData($product)]);
             return redirect('member-area/success')->with(['success'=>'Success!']);                
         } 
         } catch (\Exception $e) {
